@@ -117,7 +117,7 @@ function Detail() {
                 setListTodo(response.data.todo_items)
                 setTitle(response.data.title)
             })
-
+// eslint-disable-next-line
     }, [requset])
 
     return (
@@ -221,9 +221,6 @@ function Detail() {
                             <img onClick={() => {
                             }} src={todoempty} alt="" />
                         </div>
-
-
-
                 }
                 <ModalAct
                     edit={edit}

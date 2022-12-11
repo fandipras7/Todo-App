@@ -1,6 +1,5 @@
 import React from 'react'
 import './index.scss'
-import Modal from '../Modal'
 
 function Card({className, onClick, title, textDate, showModal, isiData, ...props}) {
   return (

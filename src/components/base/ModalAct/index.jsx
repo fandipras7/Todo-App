@@ -1,5 +1,4 @@
 import React from 'react'
-import { useState } from 'react'
 import { editTodo, tambahListItem } from '../../../config/services'
 import Button from '../Button'
 import './index.scss'
@@ -7,7 +6,7 @@ import './index.scss'
 function ModalAct({ edit, data, show, setShow, setRequest, setEdit, setData }) {
 
     function setFormatValue(value) {
-        if(value == "Medium") {
+        if(value === "Medium") {
             return "normal"
         }
         const result = value.split(' ').join('-').toLowerCase()
@@ -33,7 +32,7 @@ function ModalAct({ edit, data, show, setShow, setRequest, setEdit, setData }) {
     }
 
     function checkAllVelue(value) {
-        if (value.title == '' || value.priority == '') {
+        if (value.title === '' || value.priority === '') {
             return true
         }
 
