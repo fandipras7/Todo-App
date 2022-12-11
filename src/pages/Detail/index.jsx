@@ -5,10 +5,12 @@ import pencil from '../../assets/icons/pencil.svg'
 import todoempty from '../../assets/icons/todo-empty-state.svg'
 import Button from '../../components/base/Button'
 import ListItem from '../../components/base/ListItem'
+import Modal from '../../components/base/Modal'
+import Alert from '../../components/base/Alert'
 import './index.scss'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getDetailActivity, editTitle } from '../../config/services'
+import { getDetailActivity, editTitle, setActive } from '../../config/services'
 import ModalAct from '../../components/base/ModalAct'
 import { useEffect } from 'react'
 
@@ -17,18 +19,47 @@ function Detail() {
         title: false,
         editTitle: true
     })
+
     const navigate = useNavigate()
-    const [detail, setDetail] = useState({})
+    const [requset, setRequest] = useState(0)
+    const [lisItem, setListItem] = useState({})
+    const [edit, setEdit] = useState(false)
+    const [detailTodo, setDetailTodo] = useState({
+        title: '',
+        priority: '',
+    })
     const [show, setShow] = useState({
         modal: false,
         dropdown: true,
     })
 
+    const [showDeleteModal, setshowDeleteModal] = useState(false)
+    const [alert, setAlert] = useState(false)
+
     function onChange(e) {
-        setDetail({
-            ...detail,
+        setListItem({
+            ...lisItem,
             [e.target.name]: e.target.value
         })
+    }
+
+    function onCheckChange(data) {
+        let code = data.is_active;
+        if (code == 0) {
+            code = 1
+        } else {
+            code = 0
+        }
+        const dataTodo = {
+            priority: `${data.priority}`,
+            is_active: code
+        }
+
+        setActive(data.id, dataTodo)
+            .then(() => {
+                setRequest((prev) => prev += 1)
+            })
+            .catch((error) => console.log(error))
     }
 
     function onClickEdit() {
@@ -40,10 +71,9 @@ function Detail() {
     const { id } = useParams()
 
     useEffect(() => {
-        getDetailActivity(id, setDetail)
-    }, [])
+        getDetailActivity(id, setListItem)
+    }, [requset])
 
-    console.log(detail);
     return (
         <div className='fluid-container detail'>
             <Header />
@@ -51,21 +81,21 @@ function Detail() {
                 <div className="new-activity">
                     <div className="edit-title">
                         <img onClick={() => { navigate('/') }} data-cy="todo-back-button" src={backIcon} alt="backIcon" />
-                        <h1 id='title' data-cy="todo-title" hidden={display.title}>{detail.title}</h1>
+                        <h1 id='title' data-cy="todo-title" hidden={display.title}>{lisItem.title}</h1>
                         <input onChange={
                             (e) => {
                                 onChange(e)
                             }}
                             onBlur={async () => {
-                                await editTitle(id, detail.title)
-                                getDetailActivity(id, setDetail)
+                                await editTitle(id, lisItem.title)
+                                getDetailActivity(id, setListItem)
                                 setDisplay({
                                     title: !display.title,
                                     editTitle: !display.editTitle
                                 })
                             }}
                             name='title' type="text"
-                            value={detail.title}
+                            value={lisItem.title}
                             id='editTitle'
                             hidden={display.editTitle
                             }
@@ -74,6 +104,11 @@ function Detail() {
                     </div>
                     <div className='control-button'>
                         <Button onClick={() => {
+                            setDetailTodo({
+                                activity_group_id: lisItem.id,
+                                title: '',
+                                priority: '',
+                            })
                             setShow({
                                 ...show,
                                 modal: !show.modal
@@ -86,15 +121,41 @@ function Detail() {
                     </div>
                 </div>
                 {
-                    detail.todo_items?.length !== 0 ?
+                    lisItem.todo_items?.length > 0 ?
+                        <div>
+                            {lisItem.todo_items.map((item) => (
+                                <ListItem onEdit={
+                                    () => {
+                                        setDetailTodo(item)
+                                        setEdit(true)
+                                        setShow({
+                                            ...show,
+                                            modal: !show.modal
+                                        })
+                                    }}
+                                    onDelete={()=>{
+                                        setDetailTodo(item)
+                                        setEdit(true)
+                                        setshowDeleteModal(true)
+                                    }}
+                                    onChange={() => { onCheckChange(item) }}
+                                    key={item.id}
+                                    data={item}
+                                />
+                            ))}
+                        </div>
+                        :
                         <div className="content" data-cy="todo-empty-state">
                             <img src={todoempty} alt="" />
                         </div>
-                        :
-                        <ListItem />
+
+
 
                 }
-                <ModalAct 
+                <ModalAct
+                    edit={edit}
+                    data={detailTodo}
+                    setData={setDetailTodo}
                     onCloseModal={() => {
                         setShow({
                             ...show,
@@ -102,8 +163,12 @@ function Detail() {
                         })
                     }}
                     setShow={setShow}
+                    setRequest={setRequest}
+                    setEdit={setEdit}
                     show={show}
                 />
+                <Modal setRequest={setRequest} edit={edit} setEdit={setEdit} showAlert={() => { setAlert(true) }} data={detailTodo} onClose={() => { setshowDeleteModal(false) }} show={showDeleteModal} />
+                <Alert onClose={() => { setAlert(false) }} show={alert} />
             </div>
         </div>
     )

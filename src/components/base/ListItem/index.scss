@@ -15,20 +15,67 @@
         align-items: center;
         padding: 50px;
         gap: 50px;
-        
+
+        .not_done {
+            font-weight: 500;
+            font-size: 18px;
+            color: #111111;
+            margin-top: 10px;
+        }
+
+        .done {
+            font-weight: 500;
+            font-size: 18px;
+            color: #111111;
+            text-decoration: line-through;
+            color: #888;
+            margin-top: 10px;
+        }
+
         input {
             width: 20px;
             height: 20px;
         }
 
-        span {
+        .very-high {
             width: 15px;
             height: 15px;
             background-color: #ED4C5C;
             border-radius: 50%;
         }
+
+        .high {
+            width: 15px;
+            height: 15px;
+            background-color: #F8A541;
+            border-radius: 50%;
+        }
+
+        .normal {
+            width: 15px;
+            height: 15px;
+            background-color: #00A790;
+            border-radius: 50%;
+        }
+
+        .low {
+            width: 15px;
+            height: 15px;
+            background-color: #428BC1;
+            border-radius: 50%;
+        }
+
+        .very-low {
+            width: 15px;
+            height: 15px;
+            background-color: #8942C1;
+            border-radius: 50%;
+        }
+
+        img {
+            cursor: pointer;
+        }
     }
 
-    .delete_action {
-    }
+    .delete_action {}
 }

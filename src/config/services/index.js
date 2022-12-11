@@ -6,7 +6,7 @@ export const getListTodo = async (setListItem) => {
         setListItem(response.data.data)
 
     } catch (error) {
-        
+
     }
 }
 
@@ -24,22 +24,38 @@ export const AddDefaultTodo = async () => {
 }
 
 export const getDetailActivity = async (id, setDetail) => {
- try {
-    const response = await axios.get(`${process.env.REACT_APP_LIST_APP_API}/activity-groups/${id}`)
-    setDetail(response.data)
- } catch (error) {
-    console.log(error);
- }
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_LIST_APP_API}/activity-groups/${id}`)
+        setDetail(response.data)
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const editTitle = async (id, title) => {
     try {
-       await axios.patch(`${process.env.REACT_APP_LIST_APP_API}/activity-groups/${id}`, {title})
+        await axios.patch(`${process.env.REACT_APP_LIST_APP_API}/activity-groups/${id}`, { title })
     } catch (error) {
-       console.log(error);
+        console.log(error);
     }
-   }
+}
+
+export const tambahListItem = (data) => {
+    return axios.post(`${process.env.REACT_APP_LIST_APP_API}/todo-items`, data)
+}
+
+export const editTodo = (id, data) => {
+    return axios.patch(`${process.env.REACT_APP_LIST_APP_API}/todo-items/${id}`, data)
+}
+
+export const setActive = (id, data) => {
+    return axios.patch(`${process.env.REACT_APP_LIST_APP_API}/todo-items/${id}`, data)
+}
 
 export const deleteActivity = (data) => {
     return axios.delete(`${process.env.REACT_APP_LIST_APP_API}/activity-groups/${data.id}`)
+}
+
+export const deleteItemActivity = (data) => {
+    return axios.delete(`${process.env.REACT_APP_LIST_APP_API}/todo-items/${data.id}`)
 }

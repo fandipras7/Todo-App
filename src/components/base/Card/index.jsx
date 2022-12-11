@@ -4,8 +4,8 @@ import Modal from '../Modal'
 
 function Card({className, onClick, title, textDate, showModal, isiData, ...props}) {
   return (
-    <div onClick={onClick} className={className} {...props}>
-        <p data-cy="activity-item-title">{title}</p> 
+    <div className={className} {...props}>
+        <p onClick={onClick} data-cy="activity-item-title">{title}</p> 
 
         <div className="activity_info">
             <span className='date' data-cy="activity-item-date">{textDate}</span>
