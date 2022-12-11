@@ -32,7 +32,77 @@
         }
 
         .control-button {
+            width: 240px;
             text-align: end;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+
+            .dropdown-sort {
+                background-color: white;
+                border: 1px solid #E5E5E5;
+                width: 240px;
+                height: 52px;
+                position: absolute;
+                top: 60px;
+
+                ul {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    margin: 0;
+                    width: 100%;
+                    background-color: white;
+
+                    li {
+                        position: relative;
+                        width: 100%;
+                        left: -32px;
+                        display: flex;
+                        height: 40px;
+                        align-items: center;
+                        padding: 10px 20px;
+                        gap: 20px;
+
+                        &:hover {
+                            cursor: pointer;
+                            background-color: lightblue;
+                        }
+
+                        .latest {
+                            width: 18px;
+                            height: 14px;
+                            background-image: url(../../assets/icons/latest.svg);
+                            background-repeat: no-repeat;
+                        }
+                        .oldest {
+                            width: 18px;
+                            height: 14px;
+                            background-image: url(../../assets/icons/oldest.svg);
+                            background-repeat: no-repeat;
+                        }
+                        .asc {
+                            width: 18px;
+                            height: 14px;
+                            background-image: url(../../assets/icons/asc.svg);
+                            background-repeat: no-repeat;
+                        }
+                        .desc {
+                            width: 18px;
+                            height: 14px;
+                            background-image: url(../../assets/icons/desc.svg);
+                            background-repeat: no-repeat;
+                        }
+                        .unfinished {
+                            width: 18px;
+                            height: 14px;
+                            background-image: url(../../assets/icons/unfinished.svg);
+                            background-repeat: no-repeat;
+                        }
+                    }
+                }
+            }
         }
     }
 

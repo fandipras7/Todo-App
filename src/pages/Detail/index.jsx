@@ -23,7 +23,10 @@ function Detail() {
     const navigate = useNavigate()
     const [requset, setRequest] = useState(0)
     const [lisItem, setListItem] = useState({})
+    const [listTodo, setListTodo] = useState([])
+    const [title, setTitle] = useState('')
     const [edit, setEdit] = useState(false)
+    const [sortDropdown, setSortDropdown] = useState(true)
     const [detailTodo, setDetailTodo] = useState({
         title: '',
         priority: '',
@@ -32,6 +35,7 @@ function Detail() {
         modal: false,
         dropdown: true,
     })
+
 
     const [showDeleteModal, setshowDeleteModal] = useState(false)
     const [alert, setAlert] = useState(false)
@@ -45,7 +49,7 @@ function Detail() {
 
     function onCheckChange(data) {
         let code = data.is_active;
-        if (code == 0) {
+        if (code === 0) {
             code = 1
         } else {
             code = 0
@@ -62,6 +66,42 @@ function Detail() {
             .catch((error) => console.log(error))
     }
 
+    function sortingListTodo(key) {
+        let result = []
+
+        switch (key) {
+            case 'latest':
+                result = listTodo.sort((a, b) => {
+                    return a.id < b.id
+                })
+                break;
+            case 'oldest':
+                result = listTodo.sort((a, b) => {
+                    return a.id > b.id
+                })
+                break;
+            case 'asc':
+                result = listTodo.sort((a, b) => {
+                    return a.title.localeCompare(b.title)
+                })
+                break;
+            case 'desc':
+                result = listTodo.sort((a, b) => {
+                    return b.title.localeCompare(a.title)
+                })
+                break;
+            case 'unfinished':
+                result = listTodo.sort((a, b) => {
+                    return a.is_active < b.is_active
+                })
+                break;
+            default:
+                break;
+        }
+        setListItem(result)
+        setSortDropdown(true)
+    }
+
     function onClickEdit() {
         setDisplay({
             title: !display.title,
@@ -71,7 +111,13 @@ function Detail() {
     const { id } = useParams()
 
     useEffect(() => {
-        getDetailActivity(id, setListItem)
+        getDetailActivity(id)
+            .then((response) => {
+                setListItem(response.data)
+                setListTodo(response.data.todo_items)
+                setTitle(response.data.title)
+            })
+
     }, [requset])
 
     return (
@@ -81,7 +127,7 @@ function Detail() {
                 <div className="new-activity">
                     <div className="edit-title">
                         <img onClick={() => { navigate('/') }} data-cy="todo-back-button" src={backIcon} alt="backIcon" />
-                        <h1 id='title' data-cy="todo-title" hidden={display.title}>{lisItem.title}</h1>
+                        <h1 id='title' data-cy="todo-title" hidden={display.title}>{title}</h1>
                         <input onChange={
                             (e) => {
                                 onChange(e)
@@ -93,6 +139,7 @@ function Detail() {
                                     title: !display.title,
                                     editTitle: !display.editTitle
                                 })
+                                setRequest((prev) => prev + 1)
                             }}
                             name='title' type="text"
                             value={lisItem.title}
@@ -103,6 +150,7 @@ function Detail() {
                         <img onClick={onClickEdit} data-cy="todo-title-edit-button" src={pencil} alt="pencil" />
                     </div>
                     <div className='control-button'>
+                        <Button onClick={() => { setSortDropdown(!sortDropdown) }} data-cy="todo-sort-button" className="button_sort"></Button>
                         <Button onClick={() => {
                             setDetailTodo({
                                 activity_group_id: lisItem.id,
@@ -118,12 +166,36 @@ function Detail() {
                             <span className='icon_plus'></span>
                             <span>Tambah</span>
                         </Button>
+                        <div className="dropdown-sort" hidden={sortDropdown}>
+                            <ul data-cy="sort-parent">
+                                <li data-cy="sort-latest" onClick={() => { sortingListTodo("latest") }}>
+                                    <span className='latest'></span>
+                                    <span>Terbaru</span>
+                                </li>
+                                <li data-cy="sort-oldest" onClick={() => { sortingListTodo("oldest") }}>
+                                    <span className='oldest'></span>
+                                    <span>Terlama</span>
+                                </li>
+                                <li data-cy="sort-az" onClick={() => { sortingListTodo("asc") }}>
+                                    <span className='asc'></span>
+                                    <span>A-Z</span>
+                                </li>
+                                <li data-cy="sort-za" onClick={() => { sortingListTodo("desc") }}>
+                                    <span className='desc'></span>
+                                    <span>Z-A</span>
+                                </li>
+                                <li data-cy="sort-unfinished" onClick={() => { sortingListTodo("unfinished") }}>
+                                    <span className='unfinished'></span>
+                                    <span>Belum Selesai</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 {
-                    lisItem.todo_items?.length > 0 ?
+                    listTodo?.length > 0 ?
                         <div>
-                            {lisItem.todo_items.map((item) => (
+                            {listTodo.map((item) => (
                                 <ListItem onEdit={
                                     () => {
                                         setDetailTodo(item)
@@ -133,7 +205,7 @@ function Detail() {
                                             modal: !show.modal
                                         })
                                     }}
-                                    onDelete={()=>{
+                                    onDelete={() => {
                                         setDetailTodo(item)
                                         setEdit(true)
                                         setshowDeleteModal(true)
@@ -146,7 +218,8 @@ function Detail() {
                         </div>
                         :
                         <div className="content" data-cy="todo-empty-state">
-                            <img src={todoempty} alt="" />
+                            <img onClick={() => {
+                            }} src={todoempty} alt="" />
                         </div>
 
 

@@ -23,10 +23,10 @@ export const AddDefaultTodo = async () => {
     }
 }
 
-export const getDetailActivity = async (id, setDetail) => {
+export const getDetailActivity = async (id) => {
     try {
         const response = await axios.get(`${process.env.REACT_APP_LIST_APP_API}/activity-groups/${id}`)
-        setDetail(response.data)
+        return response
     } catch (error) {
         console.log(error);
     }

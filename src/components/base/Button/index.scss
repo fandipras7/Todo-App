@@ -81,3 +81,14 @@
     border: none;
     color: var(--text-white);
 }
+
+.button_sort {
+    width: 54px;
+    height: 54px;
+    background-color: rgba(229, 229, 229, 1);
+    border: 1px solid #E5E5E5;
+    border-radius: 45px;
+    background-image: url(../../../assets/icons/sort.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
