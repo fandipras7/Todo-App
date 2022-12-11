@@ -1,0 +1,50 @@
+.container_activity_empty {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .activity_empty_state {
+        width: 767px;
+        height: 490px;
+        display: flex;
+        align-items: center;
+        // gap: 30px;
+
+        .kolom-image {
+            // background-color: yellow;
+            flex: 50%;
+            height: 70%;
+            text-align: end;
+        }
+        .kolom-konten {
+            flex: 50%;
+            height: 70%;
+            text-align: center;
+            // background-color: red;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            .frameButton {
+                width: 200px;
+                height: 150px;
+                border: 3px solid #E4E4E4;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            p {
+                margin-top: 20px;
+            }
+
+            .titik {
+                width: 200px;
+                height: 50px;
+                background-image: url(../../../assets/icons/titik.svg);
+                background-repeat: no-repeat;
+                margin-top: 40px;
+                background-position: center;
+            }
+        }
+    }
+}

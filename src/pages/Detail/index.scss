@@ -1,0 +1,43 @@
+.detail {
+    background-color: #F4F4F4;
+    height: 100vh;
+    .new-activity {
+        // background-color: red;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 50px;
+
+        .edit-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            input {
+                border: none;
+                border-bottom: 1px solid black;
+                outline: 0;
+            }
+
+            img {
+                cursor: pointer;
+            }
+
+            h1 {
+                font-weight: 700;
+                font-size: 36px;
+            }
+        }
+
+        .control-button {
+            text-align: end;
+        }
+    }
+
+    .content {
+        display: flex;
+        justify-content: center;
+        margin-top: 80px;
+    }
+}

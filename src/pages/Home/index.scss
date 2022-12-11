@@ -1,0 +1,25 @@
+.home {
+    background-color: #F4F4F4;
+    height: 100%;
+    .activity {
+        display: flex;
+        justify-content: space-between;
+
+        h1 {
+            color: #111111;
+            font-weight: 700;
+            font-size: 36px;
+        }
+    }
+
+    .activity_list_container {
+        display: flex;
+        gap: 55px;
+        justify-items: self-start;
+        flex-wrap: wrap;
+        margin-top: 50px;
+    }
+    
+}
+
+

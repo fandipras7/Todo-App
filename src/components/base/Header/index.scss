@@ -1,0 +1,15 @@
+.header {
+    background-color: var(--text-blue);
+    height: 105px;
+
+    .header_bg {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        p {
+            color: var(--text-white);
+            font-size: 24px;
+            font-weight: 700;
+        }
+    }
+}
