@@ -109,7 +109,7 @@ function ModalAct({ edit, data, show, setShow, setRequest, setEdit, setData }) {
                     </div>
                     <div className="modal-body">
                         <p data-cy="modal-add-name-title">NAMA LIST ITEM</p>
-                        <input value={data.title} onChange={(e) => { onInputChange(e) }} type="text" placeholder='Tambahkan nama list item' data-cy="modal-add-name-input" />
+                        <input value={data.title} onChange={(e) => { onInputChange(e) }} type="text" placeholder='Tambahkan nama list item' data-cy='modal-add-name-input' />
 
                         <p className='mt-5' data-cy="modal-add-priority-title">PRIORITY</p>
                         <div onClick={() => {

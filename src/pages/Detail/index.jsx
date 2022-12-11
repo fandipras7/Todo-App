@@ -128,7 +128,7 @@ function Detail() {
                     <div className="edit-title">
                         <img onClick={() => { navigate('/') }} data-cy="todo-back-button" src={backIcon} alt="backIcon" />
                         <h1 id='title' data-cy="todo-title" hidden={display.title}>{title}</h1>
-                        <input onChange={
+                        <input data-cy="todo-title" onChange={
                             (e) => {
                                 onChange(e)
                             }}
@@ -162,7 +162,7 @@ function Detail() {
                                 modal: !show.modal
 
                             })
-                        }} className="button_tambah" data-cy="activity-add-button">
+                        }} className="button_tambah" data-cy="todo-add-button">
                             <span className='icon_plus'></span>
                             <span>Tambah</span>
                         </Button>
